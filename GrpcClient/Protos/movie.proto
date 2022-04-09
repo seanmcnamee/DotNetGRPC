@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+service Movies {
+	//Unary
+	rpc GetInfo (MovieInfoRequest) returns (MovieInfoReply);
+	rpc GetGenreInfoList (MovieInfoListRequest) returns (MovieInfoListReply);
+
+	// Client streaming
+	//rpc UploadTranscript ()
+}
+
+enum Genre { //Enum
+	genre_all = 0;
+	genre_horror = 1;
+	genre_drama = 2;
+	genre_action = 3;
+	genre_comedy = 4;
+	genre_western = 5;
+	genre_science_fiction = 6;
+	genre_thriller = 7;
+	genre_romance = 8;
+}
+
+message MovieInfoRequest {
+	oneof criteria {  //Similar to the C/C++ Union type
+		int32 id = 1;
+		string name = 2;
+	}
+}
+
+message MovieInfoReply {
+	int32 id = 1;
+	string name = 2;
+	string description = 3;
+	Genre genre = 4;
+}
+
+message MovieInfoListRequest {
+	Genre genre = 1;
+}
+
+message MovieInfoListReply {
+	repeated MovieInfoReply movies_list = 1; //Demonstrates List equivalent, and complex objects
+}
